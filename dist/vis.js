@@ -18883,7 +18883,7 @@ ItemSet.prototype._onDragStartAddItem = function (event) {
   var time = this.body.util.toTime(x);
   var scale = this.body.util.getScale();
   var step = this.body.util.getStep();
-  var start = snap ? snap(time, scale, step, group.groupId) : time;
+  var start = snap ? snap(time, scale, step, group ? group.groupId : null) : time;
   var end = start;
 
   var itemData = {
@@ -18991,14 +18991,14 @@ ItemSet.prototype._onDrag = function (event) {
               initialEnd = util.convert(props.data.end, 'Date');
               end = new Date(initialEnd.valueOf() + offset);
               // TODO: pass a Moment instead of a Date to snap(). (Breaking change)
-              itemData.end = snap ? snap(end, scale, step, group.groupId) : end;
+              itemData.end = snap ? snap(end, scale, step, group ? group.groupId : null) : end;
             }
           } else {
             if (itemData.start != undefined) {
               initialStart = util.convert(props.data.start, 'Date');
               start = new Date(initialStart.valueOf() + offset);
               // TODO: pass a Moment instead of a Date to snap(). (Breaking change)
-              itemData.start = snap ? snap(start, scale, step, group.groupId) : start;
+              itemData.start = snap ? snap(start, scale, step, group ? group.groupId : null) : start;
             }
           }
         } else if (props.dragRight) {
@@ -19008,14 +19008,14 @@ ItemSet.prototype._onDrag = function (event) {
               initialStart = util.convert(props.data.start, 'Date');
               start = new Date(initialStart.valueOf() + offset);
               // TODO: pass a Moment instead of a Date to snap(). (Breaking change)
-              itemData.start = snap ? snap(start, scale, step, group.groupId) : start;
+              itemData.start = snap ? snap(start, scale, step, group ? group.groupId : null) : start;
             }
           } else {
             if (itemData.end != undefined) {
               initialEnd = util.convert(props.data.end, 'Date');
               end = new Date(initialEnd.valueOf() + offset);
               // TODO: pass a Moment instead of a Date to snap(). (Breaking change)
-              itemData.end = snap ? snap(end, scale, step, group.groupId) : end;
+              itemData.end = snap ? snap(end, scale, step, group ? group.groupId : null) : end;
             }
           }
         } else {
@@ -19030,11 +19030,11 @@ ItemSet.prototype._onDrag = function (event) {
               var duration = initialEnd.valueOf() - initialStart.valueOf();
 
               // TODO: pass a Moment instead of a Date to snap(). (Breaking change)
-              itemData.start = snap ? snap(start, scale, step, group.groupId) : start;
+              itemData.start = snap ? snap(start, scale, step, group ? group.groupId : null) : start;
               itemData.end = new Date(itemData.start.valueOf() + duration);
             } else {
               // TODO: pass a Moment instead of a Date to snap(). (Breaking change)
-              itemData.start = snap ? snap(start, scale, step, group.groupId) : start;
+              itemData.start = snap ? snap(start, scale, step, group ? group.groupId : null) : start;
             }
           }
         }
@@ -19520,17 +19520,17 @@ ItemSet.prototype._onAddItem = function (event) {
   if (event.type == 'drop') {
     newItemData = JSON.parse(event.dataTransfer.getData("text"));
     newItemData.content = newItemData.content ? newItemData.content : 'new item';
-    newItemData.start = newItemData.start ? newItemData.start : snap ? snap(start, scale, step, group.groupId) : start;
+    newItemData.start = newItemData.start ? newItemData.start : snap ? snap(start, scale, step, group ? group.groupId : null) : start;
     newItemData.type = newItemData.type || 'box';
     newItemData[this.itemsData._fieldId] = newItemData.id || util.randomUUID();
 
     if (newItemData.type == 'range' && !newItemData.end) {
       end = this.body.util.toTime(x + this.props.width / 5);
-      newItemData.end = snap ? snap(end, scale, step, group.groupId) : end;
+      newItemData.end = snap ? snap(end, scale, step, group ? group.groupId : null) : end;
     }
   } else {
     newItemData = {
-      start: snap ? snap(start, scale, step, group.groupId) : start,
+      start: snap ? snap(start, scale, step, group ? group.groupId : null) : start,
       content: 'new item'
     };
     newItemData[this.itemsData._fieldId] = util.randomUUID();
@@ -19538,7 +19538,7 @@ ItemSet.prototype._onAddItem = function (event) {
     // when default type is a range, add a default end date to the new item
     if (this.options.type === 'range') {
       end = this.body.util.toTime(x + this.props.width / 5);
-      newItemData.end = snap ? snap(end, scale, step, group.groupId) : end;
+      newItemData.end = snap ? snap(end, scale, step, group ? group.groupId : null) : end;
     }
   }
 
@@ -41318,7 +41318,7 @@ Timeline.prototype.getEventProperties = function (event) {
   var scale = this.body.util.getScale();
   var step = this.body.util.getStep();
   var time = this._toTime(x);
-  var snappedTime = snap ? snap(time, scale, step, group.groupId) : time;
+  var snappedTime = snap ? snap(time, scale, step, group ? group.groupId : null) : time;
 
   var element = util.getTarget(event);
   var what = null;
