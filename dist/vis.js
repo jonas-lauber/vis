@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.21.0
- * @date    2018-06-18
+ * @date    2018-06-29
  *
  * @license
  * Copyright (C) 2011-2017 Almende B.V, http://almende.com
@@ -1912,6 +1912,7 @@ function hammerMock() {
 if (typeof window !== 'undefined') {
   var propagating = __webpack_require__(175);
   var Hammer = window['Hammer'] || __webpack_require__(176);
+  Hammer.defaults.preset[6].push({ time: 10000 });
   module.exports = propagating(Hammer, {
     preventDefault: 'mouse'
   });
